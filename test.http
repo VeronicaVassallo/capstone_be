@@ -1,0 +1,11 @@
+POST http://localhost:5050/room/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "nameRoom": "Ingresso Museo",
+    "english": true,
+    "firePrevention": false,
+    "firstAid": false,
+    "info": "Ricordati di prendere il vidimitatore dei tikets",
+    "cover": "https://www.stipa.it/media/immagini/419_z_Museo%20del%20900%2010.jpg"
+}
