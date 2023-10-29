@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const roomRouter = require("./routes/roomRoute");
+const dayRouter = require("./routes/dayRoute");
 
 const PORT = 5050;
 
@@ -12,6 +13,7 @@ const app = express();
 app.use(express.json());
 
 //routes
+app.use("/", dayRouter);
 app.use("/", roomRouter);
 
 mongoose.connect(process.env.MONGODB_URL, {
