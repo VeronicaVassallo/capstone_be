@@ -30,4 +30,22 @@ roomRouter.post("/room/create", validatorRoom, async (req, res) => {
 	}
 });
 
+//GET
+roomRouter.get("/rooms", async (req, res) => {
+	try {
+		const rooms = await roomModel.find();
+		res.status(200).send({
+			statusCode: 200,
+			message: `Found ${rooms.length} elements`,
+			rooms,
+		});
+	} catch (error) {
+		res.status(500).send({
+			statusCode: 500,
+			message: "Internal server error",
+			error,
+		});
+	}
+});
+
 module.exports = roomRouter;

@@ -1,20 +1,22 @@
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
-
+const cors = require("cors");
 const roomRouter = require("./routes/roomRoute");
 const dayRouter = require("./routes/dayRoute");
-
+const workshiftRouter = require("./routes/workshiftRoute");
 const PORT = 5050;
 
 const app = express();
 
 //middleware
+app.use(cors());
 app.use(express.json());
 
 //routes
 app.use("/", dayRouter);
 app.use("/", roomRouter);
+app.use("/", workshiftRouter);
 
 mongoose.connect(process.env.MONGODB_URL, {
 	useNewUrlParser: true,
