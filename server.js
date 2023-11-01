@@ -4,6 +4,7 @@ require("dotenv").config();
 const cors = require("cors");
 const roomRouter = require("./routes/roomRoute");
 const dayRouter = require("./routes/dayRoute");
+const keeperRouter = require("./routes/keeperRoute");
 const workshiftRouter = require("./routes/workshiftRoute");
 const PORT = 5050;
 
@@ -16,6 +17,7 @@ app.use(express.json());
 //routes
 app.use("/", dayRouter);
 app.use("/", roomRouter);
+app.use("/", keeperRouter);
 app.use("/", workshiftRouter);
 
 mongoose.connect(process.env.MONGODB_URL, {

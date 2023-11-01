@@ -15,7 +15,7 @@ POST http://localhost:5050/day/create HTTP/1.1
 Content-Type: application/json
 
 {
-    "singleDay": "17 Novembre 2023"
+    "singleDay": "14 marzo 2023"
 }
 
 ####
@@ -35,4 +35,23 @@ Content-Type: application/json
 }
 
 ####
+POST http://localhost:5050/keeper/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "nameKeeper": "Tonino",
+    "surnameKeeper": "Barba",
+    "english": true,
+    "firePrevention": true,
+    "firstAid": true,
+    "avatar": "https://as2.ftcdn.net/v2/jpg/02/79/66/93/1000_F_279669366_Lk12QalYQKMczLEa4ySjhaLtx1M2u7e6.jpg"
+}
+
+####
 GET http://localhost:5050/day/2023-10-31 HTTP/1.1
+
+####
+GET http://localhost:5050/workshift/65412d4ce12fe2e38b2bc328 HTTP/1.1
+
+####
+GET http://localhost:5050/keepers/653c0aac4d1d3a8652e49a8f HTTP/1.1

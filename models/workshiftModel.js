@@ -11,7 +11,8 @@ const workshift = new mongoose.Schema(
 			ref: "roomSchema",
 		},
 		keeper: {
-			type: String,
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "keeperSchema",
 		},
 	},
 	{ timestamps: true, strict: true }
