@@ -50,4 +50,53 @@ workshiftRouter.get("/workshift/:idDay", async (req, res) => {
 	}
 });
 
+//Patch assegnare id del keeper al turno
+workshiftRouter.patch("/workshift/:idWorkshift/keeper", async (req, res) => {
+	const { idWorkshift } = req.params;
+	try {
+		const workshiftPatched = await workshiftModel.findByIdAndUpdate(
+			idWorkshift,
+			{
+				keeper: req.body.keeper,
+			}
+		);
+		res.status(200).send({
+			statusCode: 200,
+			message: "Workshift patched!",
+		});
+	} catch (error) {
+		res.status(500).send({
+			statusCode: 500,
+			message: "Error during update" + error.message,
+			error,
+		});
+	}
+});
+
+//Patch rimuovi id del keeper al turno
+workshiftRouter.patch(
+	"/workshift/:idWorkshift/keeper/remove",
+	async (req, res) => {
+		const { idWorkshift } = req.params;
+		try {
+			const workshiftPatched = await workshiftModel.findByIdAndUpdate(
+				idWorkshift,
+				{
+					keeper: null,
+				}
+			);
+			res.status(200).send({
+				statusCode: 200,
+				message: "Workshift removed!",
+			});
+		} catch (error) {
+			res.status(500).send({
+				statusCode: 500,
+				message: "Error during update" + error.message,
+				error,
+			});
+		}
+	}
+);
+
 module.exports = workshiftRouter;
