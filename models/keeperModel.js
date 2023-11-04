@@ -10,6 +10,14 @@ const keeper = new mongoose.Schema(
 			type: String,
 			require: true,
 		},
+		email: {
+			type: String,
+			required: true,
+		},
+		password: {
+			type: String,
+			required: true,
+		},
 		english: {
 			type: Boolean,
 			required: true,

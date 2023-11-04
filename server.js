@@ -6,6 +6,7 @@ const roomRouter = require("./routes/roomRoute");
 const dayRouter = require("./routes/dayRoute");
 const keeperRouter = require("./routes/keeperRoute");
 const workshiftRouter = require("./routes/workshiftRoute");
+const loginRouter = require("./routes/loginRoute");
 const PORT = 5050;
 
 const app = express();
@@ -19,6 +20,7 @@ app.use("/", dayRouter);
 app.use("/", roomRouter);
 app.use("/", keeperRouter);
 app.use("/", workshiftRouter);
+app.use("/", loginRouter);
 
 mongoose.connect(process.env.MONGODB_URL, {
 	useNewUrlParser: true,
