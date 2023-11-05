@@ -50,6 +50,12 @@ workshiftRouter.get("/workshift/:idDay", async (req, res) => {
 	}
 });
 
+//Get mi devono tornare i turni del keeper specifico
+workshiftRouter.get("/workshift/:idkeeper", async (req, res) => {
+	try {
+	} catch (error) {}
+});
+
 //Patch assegnare id del keeper al turno
 workshiftRouter.patch("/workshift/:idWorkshift/keeper", async (req, res) => {
 	const { idWorkshift } = req.params;

@@ -39,10 +39,11 @@ POST http://localhost:5050/keeper/create HTTP/1.1
 Content-Type: application/json
 
 {
-    "nameKeeper": "Marica",
+    "nameKeeper": "Veronica",
     "surnameKeeper": "Vassallo",
     "email": "marica@gmail.com",
-    "password":"maricapassword",
+    "password":"veronica",
+    "referent": false,
     "english": false,
     "firePrevention": true,
     "firstAid": true,

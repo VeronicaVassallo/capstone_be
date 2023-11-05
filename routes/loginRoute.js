@@ -34,6 +34,7 @@ loginRouter.post("/login", async (req, res) => {
 			nameKeeper: keeper.nameKeeper,
 			surnameKeeper: keeper.surnameKeeper,
 			email: keeper.email,
+			referent: keeper.referent,
 			english: keeper.english,
 			firePrevention: keeper.firePrevention,
 			firstAid: keeper.firstAid,

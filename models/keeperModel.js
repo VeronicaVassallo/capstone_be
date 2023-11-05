@@ -18,6 +18,10 @@ const keeper = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		referent: {
+			type: Boolean,
+			required: true,
+		},
 		english: {
 			type: Boolean,
 			required: true,

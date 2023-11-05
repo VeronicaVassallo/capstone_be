@@ -15,6 +15,7 @@ keeperRouter.post("/keeper/create", async (req, res) => {
 		surnameKeeper: req.body.surnameKeeper,
 		email: req.body.email,
 		password: hascedPassword,
+		referent: Boolean(req.body.referent),
 		english: Boolean(req.body.english),
 		firePrevention: Boolean(req.body.firePrevention),
 		firstAid: Boolean(req.body.firstAid),
