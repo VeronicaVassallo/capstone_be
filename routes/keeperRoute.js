@@ -4,6 +4,45 @@ const workshiftModel = require("../models/workshiftModel");
 const roomModel = require("../models/roomModel");
 const keeperRouter = express.Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+require("dotenv").config();
+
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const cloudStorage = new CloudinaryStorage({
+	cloudinary: cloudinary,
+	params: {
+		folder: "imgData",
+		format: async (req, file) => "jpg",
+		public_id: (req, file) => file.name,
+	},
+});
+
+const cloudUpload = multer({ storage: cloudStorage });
+
+//post
+keeperRouter.post(
+	"/keepers/cloudUpload",
+	cloudUpload.single("avatar"),
+	async (req, res) => {
+		try {
+			res.status(200).json({ avatar: req.file.path });
+		} catch (error) {
+			res.status(500).send({
+				statusCode: 500,
+				message: "Internal server error" + error,
+				error,
+			});
+		}
+	}
+);
 
 //Post
 keeperRouter.post("/keeper/create", async (req, res) => {

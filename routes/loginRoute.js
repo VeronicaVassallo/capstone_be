@@ -31,6 +31,7 @@ loginRouter.post("/login", async (req, res) => {
 	//generiamo il token:CONTINUA
 	const token = jwt.sign(
 		{
+			_id: keeper._id,
 			nameKeeper: keeper.nameKeeper,
 			surnameKeeper: keeper.surnameKeeper,
 			email: keeper.email,

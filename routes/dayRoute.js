@@ -90,4 +90,23 @@ dayRouter.get("/day/:singleDay", async (req, res) => {
 		});
 	}
 });
+
+//delete
+dayRouter.delete("/day/delete/:idDay", async (req, res) => {
+	const { idDay } = req.params;
+	try {
+		const workshiftWithIdDay = await workshiftModel.deleteMany({ day: idDay });
+		const deleteDay = await dayModel.findByIdAndDelete(idDay);
+		res.status(200).send({
+			statusCode: 200,
+			message: `Element with id: ${idDay} was deleted `,
+		});
+	} catch (error) {
+		res.status(500).send({
+			statusCode: 500,
+			message: `Internal server error${error}`,
+			error,
+		});
+	}
+});
 module.exports = dayRouter;

@@ -50,10 +50,28 @@ workshiftRouter.get("/workshift/:idDay", async (req, res) => {
 	}
 });
 
-//Get mi devono tornare i turni del keeper specifico
-workshiftRouter.get("/workshift/:idkeeper", async (req, res) => {
+//Get mi devono tornare i turni del keeper specifico SEI ARRIVATA FINO A QUI!!!
+workshiftRouter.get("/workshift/specific/:idkeeper", async (req, res) => {
 	try {
-	} catch (error) {}
+		const { idkeeper } = req.params;
+		const workshifstSpecificKeeper = await workshiftModel
+			.find({
+				keeper: idkeeper,
+			})
+			.populate(["room", "day", "keeper"]);
+
+		res.status(200).send({
+			statusCode: 200,
+			message: `Found ${workshifstSpecificKeeper.length} elements`,
+			workshifstSpecificKeeper,
+		});
+	} catch (error) {
+		res.status(500).send({
+			statusCode: 500,
+			message: "Internal server error",
+			error,
+		});
+	}
 });
 
 //Patch assegnare id del keeper al turno

@@ -7,6 +7,7 @@ const dayRouter = require("./routes/dayRoute");
 const keeperRouter = require("./routes/keeperRoute");
 const workshiftRouter = require("./routes/workshiftRoute");
 const loginRouter = require("./routes/loginRoute");
+require("dotenv").config();
 const PORT = 5050;
 
 const app = express();

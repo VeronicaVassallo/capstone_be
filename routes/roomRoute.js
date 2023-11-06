@@ -48,4 +48,25 @@ roomRouter.get("/rooms", async (req, res) => {
 	}
 });
 
+// Get della room specifica
+
+roomRouter.get("/room/:idRoom", async (req, res) => {
+	try {
+		const { idRoom } = req.params;
+		const roomById = await roomModel.findById(idRoom);
+
+		res.status(200).send({
+			statusCode: 200,
+			message: `Room with id : ${idRoom} found`,
+			roomById,
+		});
+	} catch (error) {
+		res.status(500).send({
+			statusCode: 500,
+			message: "Internal server error",
+			error,
+		});
+	}
+});
+
 module.exports = roomRouter;
