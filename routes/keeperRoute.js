@@ -141,4 +141,24 @@ keeperRouter.get("/keepers/:idRoom/:idDay", async (req, res) => {
 	}
 });
 
+//get tutti i keepers
+
+keeperRouter.get("/keepers", async (req, res) => {
+	try {
+		const allKeepers = await keeperModel.find();
+
+		res.status(200).send({
+			statusCode: 200,
+			message: `Keepers found ${allKeepers.length}`,
+			allKeepers,
+		});
+	} catch (error) {
+		res.status(500).send({
+			statusCode: 500,
+			message: `Internal server error: ${error}`,
+			error,
+		});
+	}
+});
+
 module.exports = keeperRouter;

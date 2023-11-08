@@ -87,3 +87,8 @@ DELETE http://localhost:5050/day/delete/654930ae904aa7a5df2462e6 HTTP/1.1
 
 ####
 GET http://localhost:5050/room/653c0aac4d1d3a8652e49a8f HTTP/1.1
+
+####
+GET http://localhost:5050/keepers HTTP/1.1
+
+
