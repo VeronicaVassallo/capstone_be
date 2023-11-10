@@ -91,4 +91,10 @@ GET http://localhost:5050/room/653c0aac4d1d3a8652e49a8f HTTP/1.1
 ####
 GET http://localhost:5050/keepers HTTP/1.1
 
+####
+PATCH http://localhost:5050/workshift/654b50aadabbfe9c9e2b8e04/generator HTTP/1.1
+Content-Type: application/json
 
+{
+    "arrayIdJoined": "65490b63c9b756edb0706b52;65490b03c9b756edb0706b50;65490c43c9b756edb0706b5a;65490aa6c9b756edb0706b4b"
+}

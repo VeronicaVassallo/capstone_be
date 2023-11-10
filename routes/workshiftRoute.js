@@ -1,6 +1,8 @@
 const express = require("express");
 const workshiftModel = require("../models/workshiftModel");
+const roomModel = require("../models/roomModel");
 const workshiftRouter = express.Router();
+const keeperModel = require("../models/keeperModel");
 
 //Post
 
@@ -122,5 +124,69 @@ workshiftRouter.patch(
 		}
 	}
 );
+
+//Post che mi deve stampare i keepers selezionati nelle postazioni
+//dal front end mi passo l'array dei keeper selezionati
+
+workshiftRouter.patch("/workshift/:idDay/generator", async (req, res) => {
+	const { idDay } = req.params; //id del giorno specifico
+	const arrayIdJoined = req.body.arrayIdJoined; //array idKeeper joinati dai ; solo che è una stringa
+	try {
+		let arrayIdSplited = arrayIdJoined.split(";"); //ritorna array idKeeper
+
+		const workshiftsDay = await workshiftModel.find({ day: idDay });
+
+		let usedKeepers = [];
+
+		for (const wrk of workshiftsDay) {
+			const room = await roomModel.findById(wrk.room._id);
+
+			let keepers = await keeperModel.find({
+				$and: [
+					{ _id: { $in: arrayIdSplited } },
+					{ _id: { $nin: usedKeepers } },
+				],
+			});
+
+			if (room.english === true) {
+				keepers = keepers.filter((keeper) => {
+					return keeper.english === true;
+				});
+			}
+			if (room.firePrevention === true) {
+				keepers = keepers.filter((keeper) => {
+					return keeper.firePrevention === true;
+				});
+			}
+			if (room.firstAid === true) {
+				keepers = keepers.filter((keeper) => {
+					return keeper.firstAid === true;
+				});
+			}
+
+			if (keepers.length > 0) {
+				const keeperWinner =
+					keepers[Math.floor(Math.random() * keepers.length)];
+
+				const updateWrk = await workshiftModel.findByIdAndUpdate(wrk._id, {
+					keeper: keeperWinner._id,
+				});
+
+				usedKeepers.push(keeperWinner._id);
+			}
+		}
+
+		res.status(200).send({
+			statusCode: 200,
+			message: "Keepers associated",
+		});
+	} catch (error) {
+		res.status(500).send({
+			statusCode: 500,
+			message: "Error during update" + error.message,
+			error,
+		});
+	}
+});
 
 module.exports = workshiftRouter;
