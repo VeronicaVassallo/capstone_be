@@ -14,6 +14,10 @@ const workshift = new mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "keeperSchema",
 		},
+		priority: {
+			type: Number,
+			required: true,
+		},
 	},
 	{ timestamps: true, strict: true }
 );

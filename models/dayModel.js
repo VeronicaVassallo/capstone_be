@@ -6,6 +6,10 @@ const day = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		dataName: {
+			type: Date,
+			required: true,
+		},
 	},
 	{ timestamps: true, strict: true }
 );

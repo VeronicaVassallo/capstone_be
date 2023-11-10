@@ -126,7 +126,7 @@ workshiftRouter.patch(
 );
 
 //Post che mi deve stampare i keepers selezionati nelle postazioni
-//dal front end mi passo l'array dei keeper selezionati
+//dal frontend mi passo l'array dei keeper selezionati
 
 workshiftRouter.patch("/workshift/:idDay/generator", async (req, res) => {
 	const { idDay } = req.params; //id del giorno specifico
@@ -134,7 +134,9 @@ workshiftRouter.patch("/workshift/:idDay/generator", async (req, res) => {
 	try {
 		let arrayIdSplited = arrayIdJoined.split(";"); //ritorna array idKeeper
 
-		const workshiftsDay = await workshiftModel.find({ day: idDay });
+		const workshiftsDay = await workshiftModel
+			.find({ day: idDay })
+			.sort({ priority: -1 });
 
 		let usedKeepers = [];
 

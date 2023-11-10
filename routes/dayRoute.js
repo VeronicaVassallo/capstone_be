@@ -7,39 +7,47 @@ const workshiftModel = require("../models/workshiftModel");
 //Post
 dayRouter.post("/day/create", async (req, res) => {
 	try {
-		const newDay = new dayModel({
+		const existedDay = await dayModel.find({
 			singleDay: req.body.singleDay,
 		});
-		//Controllo che non esista già un giorno con la stessa data -> se lo trova, errore
-
-		const dayRequest = await newDay.save();
-
-		//cerco il giorno --> array
-		/*
-		const searchDay = await dayModel.find({
-			singleDay: req.body.singleDay,
-		});
-		//id del giorno
-		const searchDayId = searchDay[0]._id;
-*/
-		//cerco tutte le stanze --->array
-
-		const allRooms = await roomModel.find();
-
-		//per ogni stanza creo un turno vuoto
-		allRooms.forEach(async (room) => {
-			const newWorkshift = new workshiftModel({
-				day: dayRequest._id,
-				room: room._id,
+		if (existedDay.length > 0) {
+			res.status(200).send({
+				statusCode: 200,
+				message: "Select another date",
 			});
-			const postWorkshiftRequest = await newWorkshift.save();
-		});
+		} else {
+			const nameDate = new Date(req.body.singleDay); // questo converte la data da stringa a tipo data riconoscendo la struttura yyyy-MM-dd
 
-		res.status(201).send({
-			statusCode: 201,
-			message: "Day created",
-			dayRequest,
-		});
+			const newDay = new dayModel({
+				singleDay: req.body.singleDay,
+				dataName: nameDate, //utilizzo dopo per ordinare i giorni in base alla data, nel sort
+			});
+			//Controllo che non esista già un giorno con la stessa data -> se lo trova, errore
+
+			const dayRequest = await newDay.save();
+
+			const allRooms = await roomModel.find();
+
+			//per ogni stanza creo un turno vuoto
+			allRooms.forEach(async (room) => {
+				let counter = 0;
+				if (room.english === true) counter++;
+				if (room.firePrevention === true) counter++;
+				if (room.firstAid === true) counter++;
+
+				const newWorkshift = new workshiftModel({
+					day: dayRequest._id,
+					room: room._id,
+					priority: counter,
+				});
+				const postWorkshiftRequest = await newWorkshift.save();
+			});
+
+			res.status(201).send({
+				statusCode: 201,
+				message: "Day created",
+			});
+		}
 	} catch (error) {
 		res.status(500).send({
 			statusCode: 500,
@@ -52,7 +60,7 @@ dayRouter.post("/day/create", async (req, res) => {
 //GET
 dayRouter.get("/day", async (req, res) => {
 	try {
-		const days = await dayModel.find();
+		const days = await dayModel.find().sort({ dataName: 1 });
 
 		res.status(200).send({
 			statusCode: 200,

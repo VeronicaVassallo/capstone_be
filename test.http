@@ -15,7 +15,7 @@ POST http://localhost:5050/day/create HTTP/1.1
 Content-Type: application/json
 
 {
-    "singleDay": "14 marzo 2023"
+    "singleDay": "01-11-2023"
 }
 
 ####
@@ -80,7 +80,7 @@ Content-Type: application/json
 }
 
 ####
-GET http://localhost:5050/workshift/specific/6547eaafb34900dbea05d7b5 HTTP/1.1
+GET http://localhost:5050/workshift/specific/65490aa6c9b756edb0706b4b HTTP/1.1
 
 ####
 DELETE http://localhost:5050/day/delete/654930ae904aa7a5df2462e6 HTTP/1.1
@@ -92,7 +92,7 @@ GET http://localhost:5050/room/653c0aac4d1d3a8652e49a8f HTTP/1.1
 GET http://localhost:5050/keepers HTTP/1.1
 
 ####
-PATCH http://localhost:5050/workshift/654b50aadabbfe9c9e2b8e04/generator HTTP/1.1
+PATCH http://localhost:5050/workshift/654e539e8c6641a57b84a3f6/generator HTTP/1.1
 Content-Type: application/json
 
 {
