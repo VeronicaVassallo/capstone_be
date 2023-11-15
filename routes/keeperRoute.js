@@ -161,4 +161,26 @@ keeperRouter.get("/keepers", async (req, res) => {
 	}
 });
 
+//patch avatar keeper
+
+keeperRouter.patch("/keeper/modifyavatar/:idKeeper", async (req, res) => {
+	const { idKeeper } = req.params;
+
+	try {
+		const avatarPatched = await keeperModel.findByIdAndUpdate(idKeeper, {
+			avatar: req.body.avatar,
+		});
+
+		res.status(200).send({
+			statusCode: 200,
+			message: "Keeper patched",
+		});
+	} catch (error) {
+		res.status(500).send({
+			statusCode: 500,
+			message: "Error during update" + error.message,
+			error,
+		});
+	}
+});
 module.exports = keeperRouter;
