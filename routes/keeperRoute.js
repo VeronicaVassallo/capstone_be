@@ -49,31 +49,40 @@ keeperRouter.post("/keeper/create", async (req, res) => {
 	const salt = await bcrypt.genSalt(10);
 	const hascedPassword = await bcrypt.hash(req.body.password, salt);
 
-	const newKeeper = new keeperModel({
-		nameKeeper: req.body.nameKeeper,
-		surnameKeeper: req.body.surnameKeeper,
-		email: req.body.email,
-		password: hascedPassword,
-		referent: Boolean(req.body.referent),
-		english: Boolean(req.body.english),
-		firePrevention: Boolean(req.body.firePrevention),
-		firstAid: Boolean(req.body.firstAid),
-		avatar: req.body.avatar,
-	});
+	const existedEmail = await keeperModel.find({ email: req.body.email });
+	if (existedEmail.length > 0) {
+		res.status(200).send({
+			statusCode: 200,
+			message:
+				"The keeper's email already exists, select another keeper's email",
+		});
+	} else {
+		const newKeeper = new keeperModel({
+			nameKeeper: req.body.nameKeeper,
+			surnameKeeper: req.body.surnameKeeper,
+			email: req.body.email,
+			password: hascedPassword,
+			referent: Boolean(req.body.referent),
+			english: Boolean(req.body.english),
+			firePrevention: Boolean(req.body.firePrevention),
+			firstAid: Boolean(req.body.firstAid),
+			avatar: req.body.avatar,
+		});
 
-	try {
-		const postKeeper = newKeeper.save();
-		res.status(201).send({
-			statusCode: 201,
-			message: "Keeper created",
-			postKeeper,
-		});
-	} catch (error) {
-		res.status(500).send({
-			statusCode: 500,
-			message: `Internal server error: ${error}`,
-			error,
-		});
+		try {
+			const postKeeper = newKeeper.save();
+			res.status(201).send({
+				statusCode: 201,
+				message: "Keeper created",
+				postKeeper,
+			});
+		} catch (error) {
+			res.status(500).send({
+				statusCode: 500,
+				message: `Internal server error: ${error}`,
+				error,
+			});
+		}
 	}
 });
 
