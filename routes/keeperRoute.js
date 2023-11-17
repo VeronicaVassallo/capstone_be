@@ -104,41 +104,45 @@ keeperRouter.get("/keepers/:idRoom/:idDay", async (req, res) => {
 
 	//cerca i keeper non ancora assegnati escludendo da quelli trovati sopra
 	let keepers = await keeperModel.find({ _id: { $nin: listKeepersUsed } });
-	let keepersFiltered = [];
 
 	//triplo filtro in base ai requisiti dei keepers in confronto con la stanza
 	//Prendono in considerazione solo ai valori true del requisito
 	try {
 		if (room.english === true) {
-			keepersFiltered = keepers.filter((keeper) => {
+			keepers = keepers.filter((keeper) => {
 				return keeper.english === true;
 			});
 		}
 		if (room.firePrevention === true) {
-			keepersFiltered = keepers.filter((keeper) => {
+			keepers = keepers.filter((keeper) => {
 				return keeper.firePrevention === true;
 			});
 		}
 		if (room.firstAid === true) {
-			keepersFiltered = keepers.filter((keeper) => {
+			keepers = keepers.filter((keeper) => {
 				return keeper.firstAid === true;
 			});
 		}
 
 		//filtro quelli che non soddisfano i requisiti
 
-		const idKeepersOk = keepersFiltered.map((ok) => {
+		const idKeepersOk = keepers.map((ok) => {
 			return ok._id;
 		});
 
-		let keepersExcluded = keepers.filter((no) => {
-			return !idKeepersOk.includes(no._id);
+		let keepersExcluded = await keeperModel.find({
+			$and: [
+				{
+					_id: { $nin: listKeepersUsed },
+					_id: { $nin: idKeepersOk },
+				},
+			],
 		});
 
 		res.status(200).send({
 			statusCode: 200,
-			message: `Found ${keepersFiltered.length}`,
-			keepersFiltered,
+			message: `Found ${keepers.length}`,
+			keepers,
 			keepersExcluded,
 		});
 	} catch (error) {
