@@ -92,7 +92,7 @@ keeperRouter.get("/keepers/:idRoom/:idDay", async (req, res) => {
 	const { idDay } = req.params;
 	const room = await roomModel.findById(idRoom);
 
-	//cerco i turni che hanno il keeper e il giorno assegnato
+	//cerco i turni che hanno il keeper (che non sono null) e il giorno assegnato
 	const workshift = await workshiftModel.find({
 		keeper: { $ne: null }, //no null
 		day: idDay,

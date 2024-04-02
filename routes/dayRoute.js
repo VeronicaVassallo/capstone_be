@@ -16,7 +16,8 @@ dayRouter.post("/day/create", async (req, res) => {
 				message: "Select another date",
 			});
 		} else {
-			const nameDate = new Date(req.body.singleDay); // questo converte la data da stringa a tipo data riconoscendo la struttura yyyy-MM-dd
+			const nameDate = new Date(req.body.singleDay); // questo converte la data da stringa a tipo data
+			// riconoscendo la struttura yyyy-MM-dd
 
 			const newDay = new dayModel({
 				singleDay: req.body.singleDay,
